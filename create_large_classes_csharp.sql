@@ -1,12 +1,5 @@
--- Criar classe em C# utilizando uma tabela do banco de dados
--- Create class in C# using a database table
--- Author: Karen Payne - https://social.msdn.microsoft.com/Forums/sqlserver/en-US/408776b4-594c-409e-b01c-5557623e727a/create-class-from-sqlserver-database-table?forum=vbgeneral
 declare @TableName sysname = 'TableName'
-declare @Result varchar(max) = 'public class ' + @TableName + '
-{'
-select @Result = @Result + '
-    public ' + ColumnType + NullableSign + ' ' + ColumnName + ' { get; set; }
-'
+select 'public ' + ColumnType + NullableSign + ' ' + ColumnName + ' { get; set; }'
 from (
         select replace(col.name, ' ', '_') ColumnName,
             column_id ColumnId,
@@ -76,5 +69,3 @@ from (
         where object_id = object_id(@TableName)
     ) t
 order by ColumnId
-set @Result = @Result + '
-}' print @Result
